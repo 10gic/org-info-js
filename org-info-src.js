@@ -2274,6 +2274,12 @@ function OrgHtmlManagerKeyEvent (e)
 
   if(e.ctrlKey) return;
 
+  /* Determine the keyboard event's target element, skip event handling when it comes from 'input fields'. */
+  var node = (e.target) ? e.target : ((e.srcElement) ? e.srcElement : null);
+  if (typeof(node.type) != "undefined" && node.type != null) {
+    if (node.type.match(/^(text|textarea|email|hidden|password|search|tel|url)$/)) return;
+  }
+
   var s = String.fromCharCode(c);
   if(e.shiftKey)
     org_html_manager.CONSOLE_INPUT.value = org_html_manager.CONSOLE_INPUT.value + s;
